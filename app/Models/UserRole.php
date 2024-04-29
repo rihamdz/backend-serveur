@@ -20,4 +20,9 @@ class UserRole extends Model
      protected $fillable = [
          'user_id',
          'type_role',
-     ];}
+     ];
+     public function employee()
+     {
+         return $this->belongsTo(Employee::class, 'user_id', 'id');
+     }
+    }

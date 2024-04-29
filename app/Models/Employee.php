@@ -21,6 +21,7 @@ class Employee extends Model
     {
         return $this->hasOne(UserRole::class, 'user_id', 'id');
     }
+    
     public static function employeesWithRoles()
     {
         return static::with('userRole')->get();

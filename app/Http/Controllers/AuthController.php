@@ -128,9 +128,19 @@ public function login(Request $request)
         // Check if the user's email is verified
         if (!$user->hasVerifiedEmail()) {
             return response()->json(['message' => 'Email not verified'], 403);
-        }
-
-         
+        } else {
+            if ($user->email === 'admin@gmail.com' && $request->password === 'adminADMIN') {
+            // Generate an authentication token for the admin
+            $token = $user->createToken('auth_token')->plainTextToken;
+        
+            // Return the authentication token and admin details
+            return response()->json([
+                'access_token' => $token,
+                'user' => $user,
+                'message' => 'Admin login successful',
+                'isAdmin'=>'true'
+            ]);
+        } else {
             // If the user's email is verified and is an employee, verify the password
             if (Hash::check($request->password, $user->password)) {
                 // Get the corresponding employee details
@@ -146,13 +156,17 @@ public function login(Request $request)
                     'employee' => $employee,
                     'message' => 'Login successful',
                 ]);
-            } else {
+            } 
+                
                 // If the password is incorrect, return an error
-                return response()->json(['message' => 'Invalid credentials'], 401);
+                 else return response()->json(['message' => 'Invalid credentials'], 401);
             
-    }
+    
+        }}
+
+         
+            
 }
 }
 
-    
-}
+}   

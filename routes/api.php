@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\UserRoleController;
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +27,10 @@ Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']
 Route::get('/avatars/{filename}', function ($filename) {
     return response()->file(public_path('avatars/' . $filename));
 })->name('avatar');
+
+
+
+Route::get('/employees/{employeeId}/check-permission', [PermissionController::class, 'canAddOffer']);
 
 Route::get('/verify-email/{token}', [AuthController::class, 'verifyEmail'])->name('api.verify-email');
 Route::post('/register-committee', [AuthController::class, 'registerCommittee']);
